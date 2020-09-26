@@ -91,18 +91,24 @@ class ListaDoble
 {
 private:
 	Nodo<T>* head;// primero de la lista
+	Nodo<T>* tail;
 	int cantidad;
 public:
-	ListaDoble() { head = nullptr, cantidad = 0 };
+	ListaDoble() { head = nullptr, tail = nullptr; cantidad = 0 };
 	ListaDoble(const ListaDoble<T>&);//constructor de copia
 
 	int getCantidad();
 	void setCantidad(int n);
 	Nodo<T>* getHead();
+	Nodo<T>* getTail();
 	bool isEmpty();
 	void push(Nodo<T>** head, T* _data);//añade un elemento al principio de la lista
-	void pushEnd(Nodo<T>** head, T* _data);//añade un elemento al final de la lista
+
+	void pushEnd(Nodo<T>** head, T* _data);//añade un elemento al final de la lista, similar a un array
 	void popfront(Nodo<T>** head);
+	void swap(Nodo<T>* n1, Nodo<T>* n2);
+
+	Nodo<T>* getNodoAt(int posicion);
 
 	virtual ~ListaDoble();
 };
@@ -148,6 +154,12 @@ Nodo<T>* ListaDoble<T>::getHead()
 }
 
 template<class T>
+Nodo<T>* ListaDoble<T>::getTail()
+{
+	return tail;
+}
+
+template<class T>
 bool ListaDoble<T>::isEmpty()
 {
 	return !head;
@@ -178,17 +190,19 @@ void ListaDoble<T>::pushEnd(Nodo<T>** head, T* _data)
 		newend->setPrev(nullptr);
 		*head = newend;
 		newend->setPos(cantidad++);
+		tail = newend;
 		return;
 	}
 	Nodo<T>* aux = *head;
 
-	while (aux->getSig!=null)
+	while (aux->getSig()!=nullptr)
 	{
-		aux = aux->getSig;
+		aux = aux->getSig();
 	}
 	aux->setSig(newend);
 	newend->setPrev(aux);
 	newnend.setPos(cantidad++);
+	tail = newend;
 }
 
 template<class T>
@@ -210,6 +224,34 @@ void ListaDoble<T>::popfront(Nodo<T>** head)
 	}
 
 
+}
+
+template<class T>
+void ListaDoble<T>::swap(Nodo<T>* n1, Nodo<T>* n2)
+{
+	Nodo<T>* aux = n1;
+	n1->setData(n2->getData());
+	n2->setData(aux->getData());
+
+	aux = nullptr;
+}
+
+template<class T>
+Nodo<T>* ListaDoble<T>::getNodoAt(int posicion)
+{
+	if (this->isEmpty())
+	{
+		return nullptr;
+	}
+	if (posicion > cantidad)
+	{
+		return nullptr;
+	}
+	Nodo<T>* aux = head;
+	for (int i = 0; i < posicion; i++)
+	{
+		aux = aux->getSig();
+	}
 }
 
 template<class T>
