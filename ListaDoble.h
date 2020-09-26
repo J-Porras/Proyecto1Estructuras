@@ -9,6 +9,7 @@ private:
 	int pos;//posicion dentro de la lista
 public:
 	Nodo(T*);
+	Nodo(T*,int);
 	T* getData();
 	Nodo* getSig();
 	Nodo* getPrev();
@@ -23,6 +24,13 @@ public:
 template<class T>
 Nodo<T>::Nodo(T* t) :data(t)
 {}
+
+template<class T>
+Nodo<T>::Nodo(T* _data, int pos)
+{
+	this->data = _data;
+	this->pos = pos;
+}
 
 template<class T>
 T* Nodo<T>::getData()
@@ -84,18 +92,42 @@ class ListaDoble
 private:
 	Nodo<T>* head;// primero de la lista
 	int cantidad;
-public: 
-	ListaDoble() {head = nullptr,cantidad = 0};
-	ListaDoble(ListaDoble<T>&);//constructor de copia
+public:
+	ListaDoble() { head = nullptr, cantidad = 0 };
+	ListaDoble(const ListaDoble<T>&);//constructor de copia
 
 	int getCantidad();
 	void setCantidad(int n);
 	Nodo<T>* getHead();
 	bool isEmpty();
-	void push(Nodo<T>** head,T* _data);//añade un elemento al principio de la lista
+	void push(Nodo<T>** head, T* _data);//añade un elemento al principio de la lista
 	void pushEnd(Nodo<T>** head, T* _data);//añade un elemento al final de la lista
 	void popfront(Nodo<T>** head);
+
+	virtual ~ListaDoble();
 };
+
+template<class T>
+ListaDoble<T>::ListaDoble(const ListaDoble<T>& list2)
+{
+	if (list2.head == nullptr)
+	{
+		this->head = nullptr;
+	}
+	else
+	{
+		head = new Nodo<T>(list2.head->data,list2.head->pos);
+		Nodo<T>* aux = list2.head;
+		while (aux->getSig != nullptr)
+		{
+			head->sig = new Nodo<T> * (aux->sig->data, aux->sig->pos);
+			head->sig->prev = head;
+			aux = aux->sig;
+			head = head->sig;
+		}
+	}
+
+}
 
 template<class T>
 int ListaDoble<T>::getCantidad()
@@ -178,6 +210,18 @@ void ListaDoble<T>::popfront(Nodo<T>** head)
 	}
 
 
+}
+
+template<class T>
+ListaDoble<T>::~ListaDoble()
+{
+	Nodo<T>* aux;
+	while (head!=null)
+	{
+		aux = head;
+		head = head->getSig();
+		delete aux;
+	}
 }
 
 
