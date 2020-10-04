@@ -94,9 +94,11 @@ private:
 	Nodo<T>* tail;
 	int cantidad;
 public:
-	ListaDoble() { head = nullptr, tail = nullptr; cantidad = 0 };
-	ListaDoble(const ListaDoble<T>&);//constructor de copia
 
+	ListaDoble(Nodo<T> = nullptr, Nodo<T> = nullptr, int= 0); //Version jam
+	//ListaDoble() { head = nullptr, tail = nullptr, cantidad = 0 };
+
+	ListaDoble(const ListaDoble<T>&);//constructor de copia
 	int getCantidad();
 	void setCantidad(int n);
 	Nodo<T>* getHead();
@@ -134,6 +136,9 @@ ListaDoble<T>::ListaDoble(const ListaDoble<T>& list2)
 	}
 
 }
+
+template<class T>
+ListaDoble<T>::ListaDoble(Nodo<T> hea, Nodo<T> tal, int can): head(hea),tail(tal),cantidad(can) {}
 
 template<class T>
 int ListaDoble<T>::getCantidad()
@@ -201,7 +206,7 @@ void ListaDoble<T>::pushEnd(Nodo<T>** head, T* _data)
 	}
 	aux->setSig(newend);
 	newend->setPrev(aux);
-	newnend.setPos(cantidad++);
+	newend.setPos(cantidad++);
 	tail = newend;
 }
 
@@ -218,7 +223,7 @@ void ListaDoble<T>::popfront(Nodo<T>** head)
 	(*head)->setPrev(nullptr);
 	
 	Nodo<T>* aux = (*head);
-	while (aux->getSig() !=null)
+	while (aux->getSig() !=nullptr)
 	{
 		aux->setPos(aux->getPos() - 1);
 	}
@@ -258,7 +263,7 @@ template<class T>
 ListaDoble<T>::~ListaDoble()
 {
 	Nodo<T>* aux;
-	while (head!=null)
+	while (head!=nullptr)
 	{
 		aux = head;
 		head = head->getSig();
