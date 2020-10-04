@@ -17,13 +17,13 @@ public:
 	void maxHeap(ListaDoble<T>, int tamanio);
 	void addElement(T*);
 	void deleteElement(); //elimina el elemento de la raiz, funciona para Max y Min
-
+	//ListaDoble<T> getList();
 };
 
-
-
-
-
+//template<class T>
+//ListaDoble<T> Heap<T>::getList() {
+//	return listHeap;
+//}
 
 template<class T>
 Heap<T>::Heap(ListaDoble<T> list)
