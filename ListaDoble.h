@@ -1,4 +1,8 @@
 #pragma once
+#include<sstream>
+
+using namespace std;
+
 template<class T>
 class Nodo
 {
@@ -94,7 +98,7 @@ private:
 	Nodo<T>* tail;
 	int cantidad;
 public:
-	ListaDoble() { head = nullptr, tail = nullptr; cantidad = 0 };
+	ListaDoble();
 	ListaDoble(const ListaDoble<T>&);//constructor de copia
 
 	int getCantidad();
@@ -105,13 +109,25 @@ public:
 	void push(Nodo<T>** head, T* _data);//añade un elemento al principio de la lista
 
 	void pushEnd(Nodo<T>** head, T* _data);//añade un elemento al final de la lista, similar a un array
+	void pushEnd2(T* _data);
 	void popfront(Nodo<T>** head);
 	void swap(Nodo<T>* n1, Nodo<T>* n2);
 
 	Nodo<T>* getNodoAt(int posicion);
 
+
+	string toString();
+
 	virtual ~ListaDoble();
 };
+
+template<class T>
+ListaDoble<T>::ListaDoble()
+{
+	head = nullptr;
+	tail = nullptr; 
+	cantidad = 0;
+}
 
 template<class T>
 ListaDoble<T>::ListaDoble(const ListaDoble<T>& list2)
@@ -168,7 +184,7 @@ bool ListaDoble<T>::isEmpty()
 template<class T>
 inline void ListaDoble<T>::push(Nodo<T>** head,T* _data)
 {
-	Nodo<T>* newhead = new Nodo<T> * (_data);
+	Nodo<T>* newhead = new Nodo<T>* (_data);
 	newhead->setSig(head);
 	newhead->setPrev(nullptr);
 
@@ -201,10 +217,40 @@ void ListaDoble<T>::pushEnd(Nodo<T>** head, T* _data)
 	}
 	aux->setSig(newend);
 	newend->setPrev(aux);
-	newnend.setPos(cantidad++);
+	newend.setPos(cantidad++);
 	tail = newend;
 }
 
+template<class T>
+void ListaDoble<T>::pushEnd2(T* _data)
+{
+	if (head == nullptr)
+	{
+		head = new Nodo<T>(_data);
+		head->setData(_data);
+		head->setPos(cantidad++);
+		tail = head;
+	}
+	else
+	{
+
+		Nodo<T>* newend = new Nodo<T>(_data);
+		Nodo<T>* aux = head;
+		while (aux->getSig()!=nullptr)
+		{
+
+			aux = aux->getSig();
+
+		}
+		aux->setSig(newend);
+		newend->setPrev(aux);
+		newend->setPos(cantidad++);
+		tail = newend;
+
+	}
+}
+
+//eliminamos el primero de la lista
 template<class T>
 void ListaDoble<T>::popfront(Nodo<T>** head)
 {
@@ -217,8 +263,9 @@ void ListaDoble<T>::popfront(Nodo<T>** head)
 	delete (*head)->getPrev();
 	(*head)->setPrev(nullptr);
 	
+	//como los nodos tienen un "numero" dentro de la lista se corre el numero
 	Nodo<T>* aux = (*head);
-	while (aux->getSig() !=null)
+	while (aux->getSig() !=nullptr)
 	{
 		aux->setPos(aux->getPos() - 1);
 	}
@@ -255,10 +302,24 @@ Nodo<T>* ListaDoble<T>::getNodoAt(int posicion)
 }
 
 template<class T>
+string ListaDoble<T>::toString()
+{
+	stringstream s;
+	Nodo<T>* aux = this->head;
+	while (aux)
+	{
+		s << *(aux->getData()) << "\n";
+		aux = aux->getSig();
+	}
+	return s.str();
+
+}
+
+template<class T>
 ListaDoble<T>::~ListaDoble()
 {
 	Nodo<T>* aux;
-	while (head!=null)
+	while (head!=nullptr)
 	{
 		aux = head;
 		head = head->getSig();
