@@ -12,18 +12,27 @@ public:
 		this->listHeap = lista; 
 		this->isMax = tipoHeap;
 	};
+
 	Heap<T>* crearHeap(ListaDoble<T>* lista,bool tipoHeap);
+
 	T* getPadre(int i);
 	T* getLeft(int i);
 	T* getRight(int i);
+
 	ListaDoble<T>* getListHeap();
-	void heapifyMax(ListaDoble<T>*,int tamanio,int i);
-	void heapifyMin(ListaDoble<T>*, int tamanio, int i);
-	void maxHeap(ListaDoble<T>*, int tamanio);
-	void minHeap(ListaDoble<T>*, int tamanio);
+
 	void addElement(T*);
 	void deleteElement(); //elimina el elemento de la raiz, funciona para Max y Min
+
+	void maxHeap();
+
+	void minHeap();
+
 	~Heap();
+private:
+	//algoritmos de heapify
+	void heapifyMax(ListaDoble<T>*,int i);
+	void heapifyMin(ListaDoble<T>*,int i);
 
 };
 
@@ -74,65 +83,87 @@ ListaDoble<T>* Heap<T>::getListHeap()
 
 //crear un max-heap de una lista
 template<class T>
-void Heap<T>::heapifyMax(ListaDoble<T>* lista, int tamanio, int i)//i es la raiz del arbol o subarbol
+void Heap<T>::heapifyMax(ListaDoble<T>* lista,int i)//i es la raiz del arbol o subarbol
 {
+	int tamanio = lista->getCantidad();
 	int mayor = i;
 	int izq = (2 * i) + 1;
-	int der = (2 * 1) + 2;
+	int der = (2 * i) + 2;
+	int* a = nullptr;
+	int* b = nullptr;
+	int* c = nullptr;
+	if (lista->getNodoAt(mayor))
+	{
+		a = lista->getNodoAt(mayor)->getData();
+	}
+	if (lista->getNodoAt(izq))
+	{
+		b = lista->getNodoAt(izq)->getData();
+	}
+	if (lista->getNodoAt(der))
+	{
+		c = lista->getNodoAt(der)->getData();
+	}
 
-	if (izq < tamanio && lista->getNodoAt(izq)->getData() > lista->getNodoAt(mayor)->getData())
+	if (5>3)
+	{
+
+	}
+
+	if ((izq < tamanio) && (b > a))
 	{
 		mayor = izq;
 	}
 	
-	if (der < tamanio && lista->getNodoAt(der)->getData() > lista->getNodoAt(mayor));
+	if ((der < tamanio) && (c > a))
 	{
 		mayor = der;
 	}
 
 	if (mayor != i)
 	{
-		lista.swap(lista->getNodoAt(i), lista->getNodoAt(mayor));
+		lista->swap(lista->getNodoAt(i), lista->getNodoAt(mayor));
 
-		heapifyMax(lista, tamanio, mayor);
+		heapifyMax(lista, mayor);
 	}
 }
 
 //crear Min-Heap de lista
 template<class T>
-void Heap<T>::heapifyMin(ListaDoble<T>* lista, int tamanio, int i)//i es la raiz del arbol o subarbol
+void Heap<T>::heapifyMin(ListaDoble<T>* lista,int i)//i es la raiz del arbol o subarbol
 {
+	int tamanio = lista->getCantidad();
 	int menor = i;
-	int izq = this->getLeft(i);
-	int der = this->getRight(i);
+	int izq = (2 * i) + 1;
+	int der = (2 * i) + 2;
 
-	if (izq < tamanio && lista->getNodoAt(izq)->getData() < lista->getNodoAt(mayor)->getData())
+	if (izq < tamanio && lista->getNodoAt(izq)->getData() < lista->getNodoAt(menor)->getData())
 	{
 		menor = izq;
 	}
 
-	if (der < tamanio && lista->getNodoAt(der)->getData() < lista->getNodoAt(mayor));
+	if (der < tamanio && lista->getNodoAt(der)->getData() < lista->getNodoAt(menor)->getData())
 	{
 		menor = der;
 	}
 
 	if (menor != i)
 	{
-		lista.swap(lista->getNodoAt(i), lista->getNodoAt(mayor));
+		lista.swap(lista->getNodoAt(i), lista->getNodoAt(menor));
 
-		heapifyMin(lista, tamanio, mayor);
+		heapifyMin(lista, tamanio, menor);
 	}
 }
 
 
 //ordena la lista en maxHeap
 template<class T>
-void Heap<T>::maxHeap(ListaDoble<T>* list, int tamanio)
+void Heap<T>::maxHeap()
 {
-	int index = (tamanio / 2) - 1; //ultimo nodo antes de las hojas
+	int index = (this->listHeap->getCantidad() / 2) - 1; //ultimo nodo antes de las hojas
 	for (int i = index; i >= 0 ; i--)
 	{
-		heapifyMax(list, tamanio, i);
+		heapifyMax(this->listHeap,i);
 	}
 
 }
@@ -140,12 +171,12 @@ void Heap<T>::maxHeap(ListaDoble<T>* list, int tamanio)
 
 //ordena la lista en minHeap
 template<class T>
-void Heap<T>::minHeap(ListaDoble<T>*, int tamanio)
+void Heap<T>::minHeap()
 {
-	int index = (tamanio / 2) - 1; //ultimo nodo antes de las hojas
+	int index = (this->listHeap->getCantidad() / 2) - 1; //ultimo nodo antes de las hojas
 	for (int i = index; i >= 0; i--)
 	{
-		heapifyMin(list, tamanio, i);
+		heapifyMin(this->listHeap,i);
 	}
 
 }
@@ -153,11 +184,20 @@ void Heap<T>::minHeap(ListaDoble<T>*, int tamanio)
 
 
 
+
 template<class T>
 void Heap<T>::addElement(T* _data)
 {
-	this->listHeap.pushEnd(listHeap->getHead(),_data);
-	this->maxHeap(listHeap, listHeap.cantidad());
+	if (this->listHeap->getCantidad() == 0)
+	{
+		this->listHeap->pushEnd2(_data);
+	}
+	else
+	{
+		this->listHeap->pushEnd2(_data);
+		this->maxHeap();
+	}
+	
 }
 
 template<class T>
