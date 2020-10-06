@@ -102,13 +102,12 @@ private:
 public:
 	ListaDoble();
 	ListaDoble(const ListaDoble<T>&);//constructor de copia
-
 	int getCantidad();
 	void setCantidad(int n);
 	Nodo<T>* getHead();
 	Nodo<T>* getTail();
 	bool isEmpty();
-	void push(T* _data);//añade un elemento al principio de la lista
+    //void push(T* _data);//añade un elemento al principio de la lista
 
 	void pushEnd2(T* _data);//añade un elemento al final de la lista, similar a un array
 	void popfront();
@@ -119,7 +118,26 @@ public:
 	string toString();
 
 	ListaDoble<T>& operator=(const ListaDoble&);//sobrecarga operador "="
-
+	ListaDoble(ListaDoble<T>* list2) {
+	
+		if (list2->getHead() == nullptr)
+		{
+			this->head = nullptr;
+		}
+		else
+		{
+			head = new Nodo<T>(list2->getHead()->data, list2->getHead()->pos);
+			Nodo<T>* aux = list2->getHead();
+			while (aux->getSig != nullptr)
+			{
+				head->sig = new Nodo<T>(aux->sig->data, aux->sig->pos);
+				head->sig->prev = head;
+				aux = aux->sig;
+				head = head->sig;
+			}
+		}
+	
+	};
 	virtual ~ListaDoble();
 };
 
@@ -130,6 +148,9 @@ ListaDoble<T>::ListaDoble()
 	tail = nullptr; 
 	cantidad = 0;
 }
+
+
+
 
 template<class T>
 ListaDoble<T>::ListaDoble(const ListaDoble<T>& list2)
@@ -183,33 +204,33 @@ bool ListaDoble<T>::isEmpty()
 	return !head;
 }
 
-template<class T>
-void ListaDoble<T>::push(T* _data)
-{
-
-	if (head == nullptr)
-	{
-		Nodo<T>* newhead = new Nodo<T>(_data);
-		newhead->setSig(nullptr);
-		newhead->setPrev(nullptr);
-		head = newhead;
-		tail = head;
-	}
-	else
-	{
-		Nodo<T>* newhead = new Nodo<T>(_data);
-		newhead->setSig(head);
-		newhead->setPrev(nullptr);
-		head->setPrev(newhead);
-		Nodo<T>* aux = head;
-		while (aux->getSig()!=nullptr)
-		{
-			aux = aux->getSig();
-		}
-		tail = aux;
-		aux = nullptr;
-	}
-}
+//template<class T>
+//void ListaDoble<T>::push(T* _data)
+//{
+//
+//	if (head == nullptr)
+//	{
+//		Nodo<T>* newhead = new Nodo<T>(_data);
+//		newhead->setSig(nullptr);
+//		newhead->setPrev(nullptr);
+//		head = newhead;
+//		tail = head;
+//	}
+//	else
+//	{
+//		Nodo<T>* newhead = new Nodo<T>(_data);
+//		newhead->setSig(head);
+//		newhead->setPrev(nullptr);
+//		head->setPrev(newhead);
+//		Nodo<T>* aux = head;
+//		while (aux->getSig()!=nullptr)
+//		{
+//			aux = aux->getSig();
+//		}
+//		tail = aux;
+//		aux = nullptr;
+//	}
+//}
 
 
 template<class T>

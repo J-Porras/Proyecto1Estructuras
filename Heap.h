@@ -13,6 +13,7 @@ public:
 	Heap(ListaDoble<T>* lista,bool tipoHeap) { 
 		this->listHeap = lista; 
 		this->isMax = tipoHeap;
+
 		cantidad = 0;
 	};
 
@@ -23,14 +24,13 @@ public:
 	};
 
 	Heap<T>* crearHeap(ListaDoble<T>* lista,bool tipoHeap);
-
+	ListaDoble<T>* getList();
 	string toString();
 
 	void addElement(T*);
 	void deleteElement(); //elimina el elemento de la raiz, funciona para Max y Min
 	Nodo<T>* getRoot();
 	//void maxHeap();
-
 	//void minHeap();
 
 	~Heap();
@@ -45,7 +45,10 @@ private:
 
 };
 
-
+template<class T>
+ListaDoble<T>* Heap<T>::getList() {
+	return listHeap;
+}
 
 template<class T>
 Heap<T>* Heap<T>::crearHeap(ListaDoble<T>* lista, bool tipoHeap)
