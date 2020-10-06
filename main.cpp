@@ -1,5 +1,5 @@
 //Universidad Nacional de Costa Rica
-//Estructuras de Datos II Semestre 2020
+//Estructuras de Datos, II Semestre 2020
 //Integrantes
 //Jose Andres Porras Muñoz 118170723
 //Jam Carlos Ramirez Chaves 604510365
@@ -10,12 +10,13 @@
 using namespace std;
 
 int main() {
-	ColaPrioridad<int>* cola = new ColaPrioridad<int>;
+	ColaPrioridad<int>* cola = new ColaPrioridad<int>(false);//false = heap de minimos
 	
 	cola->add(new int(13));
 	cola->add(new int(15));
 	cola->add(new int(19));
-
+	cola->add(new int(22));
+	cola->add(new int(24));
 	cout<<cola->toString();
 
 	delete cola;

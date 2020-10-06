@@ -5,56 +5,49 @@ template<class T>
 class ColaPrioridad
 {
 private:
-	ListaDoble<T>* heap;
+	Heap<T>* heap;
 	int tamanio;
-	bool isMax;//true = heap de max, 
+	bool isMax;//true = mayorvalor, mayor prioridad, 
 
 public:
-	ColaPrioridad() {
-		heap = new ListaDoble<T>;
-		isMax = true;
+	ColaPrioridad(bool tipoHeap = true) {
+		isMax = tipoHeap;
+		heap = new Heap<T>(isMax);
+		
 		tamanio = 0;
 	}
 	void add(T*);
-	void heapify(int);
+	void popfront();
+	T* peekfront();
+
 	string toString();
 	~ColaPrioridad();
 private:
-	Nodo<T>* getPadre(int i);
 };
 
 template<class T>
 void ColaPrioridad<T>::add(T* _data)
 {
-	heap->pushEnd2(_data);
-	tamanio+=1;
-	heapify(tamanio - 1);
-
+	this->heap->addElement(_data);
 }
 
 template<class T>
-void ColaPrioridad<T>::heapify(int i)
+void ColaPrioridad<T>::popfront()
 {
-	Nodo<T>* aux = this->getPadre(i);
-	int auxIndice = aux->getPos();
-	//int* data1 = aux->getData();
-	//int* data2 = heap->getNodoAt(i)->getData();
-	while ((i>0) && ((*aux->getData()) < (*heap->getNodoAt(i)->getData())))
-	{
-		heap->swap(heap->getNodoAt(i), heap->getNodoAt(auxIndice));
-		i = auxIndice;
-		aux = this->getPadre(i);
-		auxIndice = aux->getPos();
-	}
+	this->heap->deleteElement();
+}
+
+template<class T>
+T*  ColaPrioridad<T>::peekfront()
+{
+	return this->heap->getRoot()->getData();
 }
 
 template<class T>
 string ColaPrioridad<T>::toString()
 {
 	stringstream s;
-	s << heap->toString();
-
-
+	s << this->heap->toString();
 	return s.str();
 }
 
@@ -62,15 +55,4 @@ template<class T>
 ColaPrioridad<T>::~ColaPrioridad()
 {
 	delete heap;
-}
-
-template<class T>
-Nodo<T>* ColaPrioridad<T>::getPadre(int i)
-{
-	if (i<0 || tamanio<i)
-	{
-		return nullptr;
-	}
-	int padre = (i - 1) / 2;
-	return heap->getNodoAt(padre);
 }

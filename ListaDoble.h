@@ -108,7 +108,7 @@ public:
 	Nodo<T>* getHead();
 	Nodo<T>* getTail();
 	bool isEmpty();
-	void push(Nodo<T>** head, T* _data);//añade un elemento al principio de la lista
+	void push(T* _data);//añade un elemento al principio de la lista
 
 	void pushEnd2(T* _data);//añade un elemento al final de la lista, similar a un array
 	void popfront();
@@ -184,18 +184,31 @@ bool ListaDoble<T>::isEmpty()
 }
 
 template<class T>
-inline void ListaDoble<T>::push(Nodo<T>** head,T* _data)
+void ListaDoble<T>::push(T* _data)
 {
-	Nodo<T>* newhead = new Nodo<T>* (_data);
-	newhead->setSig(head);
-	newhead->setPrev(nullptr);
 
-	if (head !=nullptr)
+	if (head == nullptr)
 	{
-		(*head)->setPrev(newhead);
+		Nodo<T>* newhead = new Nodo<T>(_data);
+		newhead->setSig(nullptr);
+		newhead->setPrev(nullptr);
+		head = newhead;
+		tail = head;
 	}
-	(*head) = newhead;
-	newhead->setPos(cantidad++);
+	else
+	{
+		Nodo<T>* newhead = new Nodo<T>(_data);
+		newhead->setSig(head);
+		newhead->setPrev(nullptr);
+		head->setPrev(newhead);
+		Nodo<T>* aux = head;
+		while (aux->getSig()!=nullptr)
+		{
+			aux = aux->getSig();
+		}
+		tail = aux;
+		aux = nullptr;
+	}
 }
 
 
