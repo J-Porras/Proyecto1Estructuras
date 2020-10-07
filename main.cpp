@@ -10,7 +10,7 @@
 using namespace std;
 
 int main() {
-	ColaPrioridad<int>* cola = new ColaPrioridad<int>(false);//false = heap de minimos
+	ColaPrioridad<int>* cola = new ColaPrioridad<int>(true);//false = heap de minimos
 	
 	cola->add(new int(13));
 	cola->add(new int(15));

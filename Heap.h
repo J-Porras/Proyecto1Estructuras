@@ -13,12 +13,14 @@ public:
 	Heap(ListaDoble<T>* lista,bool tipoHeap) { 
 		this->listHeap = lista; 
 		this->isMax = tipoHeap;
+		root = listHeap->getHead();
 		cantidad = 0;
 	};
 
 	Heap(bool tipoHeap) {
 		this->listHeap = new ListaDoble<T>;
 		this->isMax = tipoHeap;
+		root = nullptr;
 		cantidad = 0;
 	};
 

@@ -255,12 +255,18 @@ void ListaDoble<T>::popfront()
 	{
 		delete head;
 		tail = nullptr;
+		head = nullptr;
 	}
 	head = head->getSig();
 	head->getPrev()->setSig(nullptr);
 	delete head->getPrev();
 	head->setPrev(nullptr);
-
+	Nodo<T>* aux = head;
+	while (aux)
+	{
+		aux->setPos(aux->getPos() - 1);
+		aux = aux->getSig();
+	}
 	
 
 
