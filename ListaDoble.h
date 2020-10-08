@@ -305,9 +305,13 @@ string ListaDoble<T>::toString()
 	Nodo<T>* aux = this->head;
 	while (aux)
 	{
-		s << "["<<(aux->getPos())<<"]"<<*(aux->getData()) << " , ";
+		s << "["<<(aux->getPos())<<"]"<<*(aux->getData());
 		
 		aux = aux->getSig();
+		if (aux)
+		{
+			s << " , ";
+		}
 	}
 	s << "\n";
 	return s.str();

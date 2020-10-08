@@ -50,7 +50,7 @@ ColaPrioridad<T>::ColaPrioridad(const ColaPrioridad& cola2)
 {
 	if (cola2.heap == nullptr)
 	{
-		this->heap ==  nullptr
+		this->heap == nullptr;
 	}
 	else
 	{
