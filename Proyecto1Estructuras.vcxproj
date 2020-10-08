@@ -142,6 +142,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
     <ClInclude Include="ColaPrioridad.h" />
     <ClInclude Include="Heap.h" />
     <ClInclude Include="ListaDoble.h" />

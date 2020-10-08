@@ -10,16 +10,63 @@
 using namespace std;
 
 int main() {
-	ColaPrioridad<int>* cola = new ColaPrioridad<int>(true);//false = heap de minimos
-	
-	cola->add(new int(13));
-	cola->add(new int(15));
-	cola->add(new int(19));
-	cola->add(new int(22));
-	cola->add(new int(24));
-	cout<<cola->toString();
+	//ColaPrioridad<int>* cola = new ColaPrioridad<int>(false);//false = heap de minimos
+	//
+	//cola->add(new int(13));
+	//cola->add(new int(15));
+	//cola->add(new int(19));
+	//cola->add(new int(22));
+	//cola->add(new int(24));
+	//cout<<cola->toString();
 
-	delete cola;
+	//delete cola;
+
+
+	ColaPrioridad<Persona>* cola1 = new ColaPrioridad<Persona>(false);//false = heap de minimos
+	ListaDoble<Persona>* list = new ListaDoble<Persona>();
+
+	
+	Persona* p2 = new Persona("a1", 10);
+	list->pushEnd2(p2);
+	p2 = new Persona("b1", 30);
+	list->pushEnd2(p2);
+	p2 = new Persona("c1", 40);
+	list->pushEnd2(p2);
+	p2 = new Persona("d1", 50);
+	list->pushEnd2(p2);
+
+	cout<<"Lista: "<<list->toString()<<"\n\n";
+
+	ColaPrioridad<Persona>* colaList = new ColaPrioridad<Persona>(list);
+
+	cout<<"\n\nColaList: "<<colaList->toString()<<"\n\n";
+	cout << "\n\nSize:" << colaList->size()<<"\n\n";
+	delete colaList;
+
+	Persona* p = new Persona("a",0);
+	cola1->add(p);
+	p = new Persona("b", 1);
+
+	cola1->add(p);
+	p = new Persona("c", 10);
+	cola1->add(p);
+	p = new Persona("d", 3);
+	cola1->add(p);
+	p = new Persona("e", 9);
+	cola1->add(p);
+
+	cout <<"Cola1: "<< cola1->toString();
+	cout << "\n\nSize:" << cola1->size();
+
+	
+
+	cola1->clear();
+
+	p = new Persona("\n\nAfterClear", 9);
+	cola1->add(p);
+	cout << cola1->toString();
+	cout << "\n\nSize:" << cola1->size();
+	delete cola1;
 
 	/**
 	ListaDoble<int>* li = new ListaDoble<int>;

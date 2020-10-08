@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
 #include <sstream>
-
+#include <iostream>
+using namespace std;
 class Persona
 {
 private:
@@ -20,7 +21,16 @@ public:
 	bool operator<(Persona& p);
 	bool operator>=(Persona& p);
 	bool operator<=(Persona& p);
+	//friend ostream& operator<<(ostream& os, const Persona& per);
 };
+
+
+ostream& operator << (ostream& os, Persona& p) {
+	os << p.getNombre() << " - " << p.getEdad();
+	return os;
+}
+
+
 
 Persona::Persona(std::string a, int b) : nombre(a), edad(b) {}
 
