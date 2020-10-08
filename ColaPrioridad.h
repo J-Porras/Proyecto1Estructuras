@@ -13,11 +13,16 @@ public:
 	ColaPrioridad(bool tipoHeap = true) {
 		isMax = tipoHeap;
 		heap = new Heap<T>(isMax);
-		
 		tamanio = 0;
 	}
-	//ColaPrioridad(ColaPrioridad<T>*);
+	ColaPrioridad(){
+		heap = nullptr;
+		tamanio = isMax = 0;
+	
+	}
+
 	ColaPrioridad(ListaDoble<T>*,bool = true);
+	ColaPrioridad(const ColaPrioridad&);
 	void clear();
 	void add(T*);
 	void popfront();
@@ -25,13 +30,11 @@ public:
 	int size();
 	string toString();
 	~ColaPrioridad();
+private:
+	Heap<T>* getHeap();
 };
 
-//template<class T>
-//ColaPrioridad<T>::ColaPrioridad(ColaPrioridad<T>* col2) {
-//
-//
-//}
+
 
 template<class T>
 ColaPrioridad<T>::ColaPrioridad(ListaDoble<T>* lis, bool isMax) {
@@ -40,6 +43,21 @@ ColaPrioridad<T>::ColaPrioridad(ListaDoble<T>* lis, bool isMax) {
 	heap = new Heap<T>(lis, isMax);
 	tamanio = lis->getCantidad();
 	this->isMax = isMax;
+}
+
+template<class T>
+ColaPrioridad<T>::ColaPrioridad(const ColaPrioridad& cola2)
+{
+	if (cola2.heap == nullptr)
+	{
+		this->heap ==  nullptr
+	}
+	else
+	{
+		this->heap = new Heap<T>(cola2.heap);
+		this->isMax = cola2.isMax;
+		this->tamanio = cola2.tamanio;
+	}
 }
 
 
@@ -84,6 +102,12 @@ template<class T>
 ColaPrioridad<T>::~ColaPrioridad()
 {
 	delete heap;
+}
+
+template<class T>
+Heap<T>* ColaPrioridad<T>::getHeap()
+{
+	return this->heap;
 }
 
 

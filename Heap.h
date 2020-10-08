@@ -24,6 +24,8 @@ public:
 		cantidad = 0;
 	};
 
+	Heap(const Heap& heap2);
+
 	Heap<T>* crearHeap(ListaDoble<T>* lista,bool tipoHeap);
 
 	string toString();
@@ -31,15 +33,19 @@ public:
 	void addElement(T*);
 	void deleteElement(); //elimina el elemento de la raiz, funciona para Max y Min
 	Nodo<T>* getRoot();
-	//void maxHeap();
-
-	//void minHeap();
+	
 
 	~Heap();
 private:
 	//algoritmos de heapify
-	void heapifyMax(int i);
+	void heapifyMax(int can, int i);
+	void heapifyMin(int cant, int i);
 	void heapifyMin(int i);
+
+
+	void maxHeap(int i);
+	void minHeap(int i);
+
 	Nodo<T>* getPadre(int i);
 	Nodo<T>* getLeft(int i);
 	Nodo<T>* getRight(int i);
@@ -48,6 +54,32 @@ private:
 };
 
 
+
+template<class T>
+Heap<T>::Heap(const Heap& heap2)
+{
+	if (heap2.listHeap == nullptr)
+	{
+		this->listHeap = nullptr;
+	}
+	else
+	{
+		this->listHeap = new ListaDoble<T>(heap2.listHeap);
+		this->root = heap2.root;
+		Nodo<T>* aux = heap2.root;
+		this->cantidad = heap2.cantidad;
+		this->isMax = heap2.isMax;
+		if (this->isMax == true)
+		{
+			this->maxHeap(listHeap->getCantidad() - 1);
+
+		}
+		else
+		{
+			this->minHeap(listHeap->getCantidad() - 1);
+		}
+	}
+}
 
 template<class T>
 Heap<T>* Heap<T>::crearHeap(ListaDoble<T>* lista, bool tipoHeap)
@@ -77,7 +109,7 @@ string Heap<T>::toString()
 template<class T>
 Nodo<T>* Heap<T>::getPadre(int i)
 {
-	if (i < 0 || cantidad < i)
+	if (i < 0 || this->listHeap->getCantidad() < i)
 	{
 		return nullptr;
 	}
@@ -105,81 +137,130 @@ ListaDoble<T>* Heap<T>::getListHeap()
 }
 
 
-//crear un max-heap de una lista
 template<class T>
-void Heap<T>::heapifyMax(int i)//i es la raiz del arbol o subarbol
+void Heap<T>::maxHeap(int i)
 {
-	Nodo<T>* aux = this->getPadre(i);
-	int auxIndice = aux->getPos();
-	//int* data1 = aux->getData();
-	//int* data2 = heap->getNodoAt(i)->getData();
-	while ((i > 0) && ((*aux->getData()) < (*listHeap->getNodoAt(i)->getData())))
+	int auxIndice = (i - 1) / 2;
+
+	while (i >= 0 && ((*listHeap->getNodoAt(auxIndice)->getData()) < (listHeap->getNodoAt(i)->getData())))
 	{
 		listHeap->swap(listHeap->getNodoAt(i), listHeap->getNodoAt(auxIndice));
 		i = auxIndice;
-		aux = this->getPadre(i);
-		auxIndice = aux->getPos();
+		auxIndice = (i - 1) / 2;
 	}
 }
 
-//crear Min-Heap de lista
 template<class T>
-void Heap<T>::heapifyMin(int i)//i es la raiz del arbol o subarbol
+void Heap<T>::minHeap(int i)
 {
-	Nodo<T>* aux = this->getPadre(i);
-	int auxIndice = aux->getPos();
-	//int* data1 = aux->getData();
-	//int* data2 = heap->getNodoAt(i)->getData();
-	while ((i > 0) && ((*aux->getData()) > (*listHeap->getNodoAt(i)->getData())))
+	int auxIndice = (i - 1) / 2;
+
+	while ((i > 0) && ((*listHeap->getNodoAt(auxIndice)->getData()) > (listHeap->getNodoAt(i)->getData())))
 	{
 		listHeap->swap(listHeap->getNodoAt(i), listHeap->getNodoAt(auxIndice));
 		i = auxIndice;
-		aux = this->getPadre(i);
-		auxIndice = aux->getPos();
+		auxIndice = (i - 1) / 2;
+	}
+}
+
+template<class T>
+void Heap<T>::heapifyMax(int cant, int i) {
+	int mayor = i;
+	int izq = (2 * i) + 1;
+	int der = (2 * i) + 2;
+
+	if (izq < cant && (*listHeap->getNodoAt(izq)->getData()) > (listHeap->getNodoAt(mayor)->getData())) {
+		mayor = izq;
+	}
+
+	if (der < cant && (*listHeap->getNodoAt(der)->getData()) > (listHeap->getNodoAt(mayor)->getData())) {
+		mayor = der;
+	}
+
+	if (mayor != i) {
+		listHeap->swap(listHeap->getNodoAt(i), listHeap->getNodoAt(mayor));
+
+		heapifyMax(cant, mayor);
+	}
+}
+
+template<class T>
+void Heap<T>::heapifyMin(int cant, int i)
+{
+	int menor = i;
+	int izq = (2 * i) + 1;
+	int der = (2 * i) + 2;
+
+	if (izq < cant && (*listHeap->getNodoAt(izq)->getData()) <(listHeap->getNodoAt(menor)->getData())) {
+		menor = izq;
+	}
+
+	if (der < cant && (*listHeap->getNodoAt(der)->getData()) <(listHeap->getNodoAt(menor)->getData())) {
+		menor = der;
+	}
+
+	if (menor != i) {
+		listHeap->swap(listHeap->getNodoAt(i), listHeap->getNodoAt(menor));
+
+		heapifyMin(cant,menor);
+	}
+}
+
+template<class T>
+void Heap<T>::heapifyMin(int i)
+{
+	int menor = i;
+	int izq = (2 * i) + 1;
+	int der = (2 * i) + 2;
+
+	if (izq < this->listHeap->getCantidad() && (*listHeap->getNodoAt(izq)->getData()) < (listHeap->getNodoAt(menor)->getData())) {
+		menor = izq;
+	}
+
+	if (der < this->listHeap->getCantidad() && (*listHeap->getNodoAt(der)->getData()) < (listHeap->getNodoAt(menor)->getData())) {
+		menor = der;
+	}
+
+	if (menor != i) {
+		listHeap->swap(listHeap->getNodoAt(i), listHeap->getNodoAt(menor));
+
+		heapifyMin(menor);
 	}
 }
 
 template<class T>
 void Heap<T>::addElement(T* _data)
 {
-	if (this->cantidad == 0)
+	this->listHeap->pushEnd2(_data);
+	cantidad++;
+	if (this->isMax == true)
 	{
-		this->listHeap->pushEnd2(_data);
-		root = listHeap->getHead();
-		cantidad++;
+		this->maxHeap(listHeap->getCantidad() - 1);
+
 	}
 	else
 	{
-		this->listHeap->pushEnd2(_data);
-		cantidad++;
-		if (this->isMax == true)
-		{
-			this->heapifyMax(cantidad-1);
-		}
-		else
-		{
-			this->heapifyMin(cantidad-1);
-		}
-		root = listHeap->getHead();
+		this->minHeap(listHeap->getCantidad() - 1);
 	}
+	root = listHeap->getHead();
 	
 }
 
 template<class T>
 void Heap<T>::deleteElement()
 {
-	this->listHeap.popfront();
+	this->listHeap->popfront();
+
 	cantidad--;
 	if (this->isMax == true)
 	{
-		this->heapifyMax(cantidad - 1);
+		this->heapifyMax(listHeap->getCantidad(),0);
 	}
 	else
 	{
-		
-		this->heapifyMin(cantidad - 1);
+		this->heapifyMin(0);
 	}
-
+	root = listHeap->getHead();
 }
 
 template<class T>
@@ -194,31 +275,5 @@ Heap<T>::~Heap()
 	delete listHeap;
 }
 
-
-/*
-//ordena la lista en maxHeap
-template<class T>
-void Heap<T>::maxHeap()
-{
-	int index = (this->listHeap->getCantidad() / 2) - 1; //ultimo nodo antes de las hojas
-	for (int i = index; i >= 0 ; i--)
-	{
-		heapifyMax(this->listHeap,i);
-	}
-
-}
-
-
-//ordena la lista en minHeap
-template<class T>
-void Heap<T>::minHeap()
-{
-	int index = (this->listHeap->getCantidad() / 2) - 1; //ultimo nodo antes de las hojas
-	for (int i = index; i >= 0; i--)
-	{
-		heapifyMin(this->listHeap,i);
-	}
-
-}*/
 
 

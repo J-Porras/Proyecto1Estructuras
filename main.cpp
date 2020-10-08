@@ -7,116 +7,30 @@
 #include <iostream>
 #include"ColaPrioridad.h"
 #include"Heap.h"
+#include<list>
 using namespace std;
 
 int main() {
-	//ColaPrioridad<int>* cola = new ColaPrioridad<int>(false);//false = heap de minimos
-	//
-	//cola->add(new int(13));
-	//cola->add(new int(15));
-	//cola->add(new int(19));
-	//cola->add(new int(22));
-	//cola->add(new int(24));
-	//cout<<cola->toString();
-
-	//delete cola;
+	ColaPrioridad<Persona>* cola = new ColaPrioridad<Persona>(true);
 
 
-	ColaPrioridad<Persona>* cola1 = new ColaPrioridad<Persona>(false);//false = heap de minimos
-	ListaDoble<Persona>* list = new ListaDoble<Persona>();
+	/*Heap<Persona>* heap = new Heap<Persona>(false);*/
+	cola->add(new Persona("persona1", 1));
+	cola->add(new Persona("persona2", 2));
+	cola->add(new Persona("persona3", 3));
+	cola->add(new Persona("persona4", 4));
+	cola->add(new Persona("persona5", 5));
+	cola->add(new Persona("persona6", 6));
 
-	
-	Persona* p2 = new Persona("a1", 10);
-	list->pushEnd2(p2);
-	p2 = new Persona("b1", 30);
-	list->pushEnd2(p2);
-	p2 = new Persona("c1", 40);
-	list->pushEnd2(p2);
-	p2 = new Persona("d1", 50);
-	list->pushEnd2(p2);
-
-	cout<<"Lista: "<<list->toString()<<"\n\n";
-
-	ColaPrioridad<Persona>* colaList = new ColaPrioridad<Persona>(list);
-
-	cout<<"\n\nColaList: "<<colaList->toString()<<"\n\n";
-	cout << "\n\nSize:" << colaList->size()<<"\n\n";
-	delete colaList;
-
-	Persona* p = new Persona("a",0);
-	cola1->add(p);
-	p = new Persona("b", 1);
-
-	cola1->add(p);
-	p = new Persona("c", 10);
-	cola1->add(p);
-	p = new Persona("d", 3);
-	cola1->add(p);
-	p = new Persona("e", 9);
-	cola1->add(p);
-
-	cout <<"Cola1: "<< cola1->toString();
-	cout << "\n\nSize:" << cola1->size();
-
-	
-
-	cola1->clear();
-
-	p = new Persona("\n\nAfterClear", 9);
-	cola1->add(p);
-	cout << cola1->toString();
-	cout << "\n\nSize:" << cola1->size();
-	delete cola1;
-
-	/**
-	ListaDoble<int>* li = new ListaDoble<int>;
-	li->pushEnd2(new int(8));
-	li->pushEnd2(new int(13));
-	li->pushEnd2(new int(66));
-	li->pushEnd2(new int(12));
-
-	cout << li->toString();
-	li->swap(li->getHead(), li->getTail()->getPrev());
-
-	cout << li->toString();*/
-
-	/*heap->addElement(new int(3));
-	heap->addElement(new int(5));
-	heap->addElement(new int(8));
-	heap->addElement(new int(1));
-	heap->addElement(new int(6));
-	heap->addElement(new int(9));*/
-
-	/*
-	cout << &lista << "\n";
-	cout << lista->toString();*/
+	cout << cola->toString();
 
 
 
+	cola->popfront();
+	cout << cola->toString();
 
 
-	/*Persona* p = new Persona("Dios",100);
-	Persona* p2 = new Persona("Pablo",100);
 
-	std::cout <<"p "<< p->toString()<<"\n";
-	std::cout <<"p2 "<< p2->toString() << "\n\n";
-
-	if ((*p)<(*p2))
-	{
-		std::cout << "p<p2";
-	}
-
-	if ((*p)>(*p2))
-	{
-		std::cout << "p>p2";
-	}
-
-	if ((*p)==(*p2))
-	{
-		std::cout << "p==p2";
-	}*/
-
-	
-	//delete li;
+	delete cola;
 	return 0;
 }

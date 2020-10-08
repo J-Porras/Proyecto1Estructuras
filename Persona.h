@@ -6,7 +6,7 @@ using namespace std;
 class Persona
 {
 private:
-	std::string nombre;
+	string nombre;
 	int edad;
 public:
 
@@ -16,11 +16,11 @@ public:
 	std::string getNombre();
 	std::string toString();
 
-	bool operator==(Persona& p);
-	bool operator>(Persona& p);
-	bool operator<(Persona& p);
-	bool operator>=(Persona& p);
-	bool operator<=(Persona& p);
+	bool operator==(Persona* p);
+	bool operator>(Persona* p);
+	bool operator<(Persona* p);
+	bool operator>=(Persona* p);
+	bool operator<=(Persona* p);
 	//friend ostream& operator<<(ostream& os, const Persona& per);
 };
 
@@ -29,7 +29,6 @@ ostream& operator << (ostream& os, Persona& p) {
 	os << p.getNombre() << " - " << p.getEdad();
 	return os;
 }
-
 
 
 Persona::Persona(std::string a, int b) : nombre(a), edad(b) {}
@@ -53,37 +52,22 @@ std::string Persona::toString() {
 	return s.str();
 }
 
-bool Persona::operator==(Persona& p) {
-	if (this->edad == p.getEdad()) {
-		return true;
-	}
-	return false;
+bool Persona::operator==(Persona* p) {
+	return edad == p->getEdad();
 }
 
-bool Persona::operator>(Persona& p) {
-	if (this->edad > p.getEdad()) {
-		return true;
-	}
-	return false;
+bool Persona::operator>(Persona* p) {
+	return this->edad > p->getEdad();
 }
 
-bool Persona::operator<(Persona& p) {
-	if (this->edad < p.getEdad()) {
-		return true;
-	}
-	return false;
+bool Persona::operator<(Persona* p) {
+	return this->edad < p->getEdad();
 }
 
-bool Persona::operator<=(Persona& p) {
-	if (this->edad <= p.getEdad()) {
-		return true;
-	}
-	return false;
+bool Persona::operator<=(Persona* p) {
+	return this->edad <= p->getEdad();
 }
 
-bool Persona::operator>=(Persona& p) {
-	if (this->edad >= p.getEdad()) {
-		return true;
-	}
-	return false;
+bool Persona::operator>=(Persona* p) {
+	return this->edad >= p->getEdad();
 }

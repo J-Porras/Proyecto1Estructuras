@@ -27,7 +27,11 @@ public:
 
 template<class T>
 Nodo<T>::Nodo(T* t) :data(t)
-{}
+{
+	sig = prev = nullptr;
+	pos = 0;
+
+}
 
 template<class T>
 Nodo<T>::Nodo(T* _data, int pos)
@@ -204,34 +208,6 @@ bool ListaDoble<T>::isEmpty()
 	return !head;
 }
 
-//template<class T>
-//void ListaDoble<T>::push(T* _data)
-//{
-//
-//	if (head == nullptr)
-//	{
-//		Nodo<T>* newhead = new Nodo<T>(_data);
-//		newhead->setSig(nullptr);
-//		newhead->setPrev(nullptr);
-//		head = newhead;
-//		tail = head;
-//	}
-//	else
-//	{
-//		Nodo<T>* newhead = new Nodo<T>(_data);
-//		newhead->setSig(head);
-//		newhead->setPrev(nullptr);
-//		head->setPrev(newhead);
-//		Nodo<T>* aux = head;
-//		while (aux->getSig()!=nullptr)
-//		{
-//			aux = aux->getSig();
-//		}
-//		tail = aux;
-//		aux = nullptr;
-//	}
-//}
-
 
 template<class T>
 void ListaDoble<T>::pushEnd2(T* _data)
@@ -239,7 +215,7 @@ void ListaDoble<T>::pushEnd2(T* _data)
 	if (head == nullptr)
 	{
 		head = new Nodo<T>(_data);
-		head->setData(_data);
+		
 		head->setPos(cantidad);
 		cantidad++;
 		tail = head;
@@ -257,6 +233,7 @@ void ListaDoble<T>::pushEnd2(T* _data)
 		}
 		aux->setSig(newend);
 		newend->setPrev(aux);
+		
 		newend->setPos(cantidad);
 		cantidad++;
 		tail = newend;
@@ -283,12 +260,12 @@ void ListaDoble<T>::popfront()
 	delete head->getPrev();
 	head->setPrev(nullptr);
 	Nodo<T>* aux = head;
-	while (aux)
+	while (aux->getSig()!=nullptr)
 	{
 		aux->setPos(aux->getPos() - 1);
 		aux = aux->getSig();
 	}
-	
+	aux = nullptr;
 
 
 }
@@ -328,7 +305,8 @@ string ListaDoble<T>::toString()
 	Nodo<T>* aux = this->head;
 	while (aux)
 	{
-		s << *(aux->getData()) << " , ";
+		s << "["<<(aux->getPos())<<"]"<<*(aux->getData()) << " , ";
+		
 		aux = aux->getSig();
 	}
 	s << "\n";
