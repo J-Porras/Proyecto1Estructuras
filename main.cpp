@@ -54,17 +54,35 @@ int main() {
 	cout << "\nCola2 despues de 1 popfrontPeekFront(): " << cola2->peekfront()->toString();
 
 	cout << "\n\n----------------------------------------------------------------------------------------------------------\n";
+
 	cout << "\t\t\t\t\t[COLADEPRIORIDAD_3]\nCola De Prioridad Creada con el Constructor de Copia:\n";
+
 	ColaPrioridad<Persona>* cola3 = new ColaPrioridad<Persona>((*cola));
 
 	cout << cola3->toString();
 
-	cout << "\nCola1 size(): " << cola->size();
-	cout << "\nCola1 Peekfront(): " << cola->peekfront()->toString();
-	//cola->popfront();
-	//cout << "\n\nCola1 despues de 1 popfront():\n" << cola->toString();
-	//cout << "\nCola1 despues de 1 popfront size(): " << cola->size();
-	//cout << "\nCola1 despues de 1 popfrontPeekFront(): " << cola->peekfront()->toString();
+	/*cout << "\nCola3 size(): " << cola3->size();
+	cout << "\nCola3 Peekfront(): " << cola3->peekfront()->toString();
+	cola3->popfront();
+	cout << "\n\nCola3 despues de 1 popfront():\n" << cola3->toString();
+	cout << "\nCola3 despues de 1 popfront size(): " << cola3->size();
+	cout << "\nCola3 despues de 1 popfrontPeekFront(): " << cola3->peekfront()->toString();*/
+
+	cout << "\n\n----------------------------------------------------------------------------------------------------------\n";
+
+	cout << "\t\t\t\t\t[COLADEPRIORIDAD_4]\nCola De Prioridad Creada con el Constructor de Lista Doblemente enlazada:\n";
+
+	lista->pushEnd2(new Persona("personaLista1", 1));
+	lista->pushEnd2(new Persona("personaLista2", 2));
+	lista->pushEnd2(new Persona("personaLista3", 3));
+	lista->pushEnd2(new Persona("personaLista4", 4));
+	lista->pushEnd2(new Persona("personaLista5", 5));
+
+	ColaPrioridad<Persona>* cola4 = new ColaPrioridad<Persona>(lista);
+
+	cout << cola4->toString();
+	cout << "\nCola4 size(): " << cola4->size();
+	cout << "\nCola4 Peekfront(): " << cola4->peekfront()->toString();
 
 
 
@@ -72,5 +90,8 @@ int main() {
 
 	delete cola;
 	delete cola2;
+	delete cola3;
+	delete cola4;
+
 	return 0;
 }
